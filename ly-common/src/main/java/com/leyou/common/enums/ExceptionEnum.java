@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public enum  ExceptionEnum { //
-    PRICE_NOT_NULL(400,"价格不能为空");
+    PRICE_NOT_NULL(400,"价格不能为空"),
+    NOT_CATEGORY(404,"查询参数错误")
     //等价于 public static final PRICE_NOT_NULL=new (400,"价格不能为空")
     ;
     private int code;
