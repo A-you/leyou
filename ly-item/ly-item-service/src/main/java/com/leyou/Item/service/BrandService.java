@@ -29,21 +29,18 @@ public class BrandService {
             example.createCriteria().andLike("name","%"+key+"%")
                     .orEqualTo("letter",key.toUpperCase());
         }
-//        if(StringUtils.isNotBlank(sortBy)) {
-//            String orderBy = sortBy + (desc ? " DESC" : " ASC");
-//            example.setOrderByClause(orderBy);
-//        }
-        System.out.println("查询条件"+example);
+        if(StringUtils.isNotBlank(sortBy)) {
+            String orderBy = sortBy + (desc ? " DESC" : " ASC");
+            example.setOrderByClause(orderBy);
+        }
         brandMapper.selectByExample(example);
 
         List<Brand> brands = brandMapper.selectAll();
-        System.out.println("查询结果"+brands);
 
-//        PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
-//        Long total = brandPageInfo.getTotal();
-//        System.out.println("ff"+total);
-//        System.out.println("分页结果"+brandPageInfo);
-//        return new PageResult<Brand>(total,brands);
-        return null;
+        PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
+        Long total = brandPageInfo.getTotal();
+        Long pages = total/rows;
+        return new PageResult<Brand>(total,pages,brands);
     }
+
 }

@@ -28,7 +28,7 @@ public class BrandController {
         System.out.println("进来了");
         PageResult<Brand> brands = brandService.getBrandByPageMethod(page, rows, key, sortBy, desc);
         System.out.println("获取到的品牌"+brands);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(brands);
 //        return ResponseEntity.ok(brands);
 
     }
