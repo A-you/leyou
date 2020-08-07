@@ -16,11 +16,15 @@ public class PageResult<T> {
     public PageResult() {
     }
 
+
     public PageResult(Long total, Long totalPage) {
         this.total = total;
         this.totalPage = totalPage;
     }
-
+    public PageResult(Long total,  List<T> items) {
+        this.total = total;
+        this.items = items;
+    }
     public PageResult(Long total, Long totalPage, List<T> items) {
         this.total = total;
         this.totalPage = totalPage;
