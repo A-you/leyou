@@ -4,11 +4,14 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.Item.mapper.BrandMapper;
+import com.leyou.common.enums.ExceptionEnum;
+import com.leyou.common.exception.LyException;
 import com.leyou.common.vo.PageResult;
 import com.leyou.item.pojo.Brand;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -22,7 +25,7 @@ public class BrandService {
 
     public PageResult<Brand> getBrandByPageMethod(Integer page, Integer rows, String key, String sortBy, Boolean desc) {
         //开始分页
-        System.out.println("进服务");
+        System.out.println("进服务"+rows+""+page);
         PageHelper.startPage(page,rows);
         Example example = new Example(Brand.class);
         if(StringUtils.isNotBlank(key)){
@@ -33,14 +36,29 @@ public class BrandService {
             String orderBy = sortBy + (desc ? " DESC" : " ASC");
             example.setOrderByClause(orderBy);
         }
-        brandMapper.selectByExample(example);
-
-        List<Brand> brands = brandMapper.selectAll();
-
+        List<Brand> brands = brandMapper.selectByExample(example);
         PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
+        List<Brand> list = brandPageInfo.getList();
         Long total = brandPageInfo.getTotal();
         Long pages = total/rows;
-        return new PageResult<Brand>(total,pages,brands);
+        return new PageResult<Brand>(total,pages,list);
     }
 
+
+
+    @Transactional
+    public void saveBrand(Brand brand, List<Long> cids) {
+        brand.setId(null);
+        int count = brandMapper.insert(brand);
+        if(count !=1 ){
+            throw new LyException(ExceptionEnum.CREATE_FAIL);
+        }
+        for (Long cid : cids) {
+            count = brandMapper.insertCategoryBrand(cid,brand.getId());
+            if(count != 1){
+                throw new LyException(ExceptionEnum.CREATE_FAIL);
+            }
+        }
+
+    }
 }
