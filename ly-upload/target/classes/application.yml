@@ -11,5 +11,27 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:10086/eureka
   instance:
-    ip-address: 127.0.0.1
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
     prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+fdfs:
+  so-timeout: 2500
+  connect-timeout: 600
+  thumb-image: #缩略图
+    width: 60
+    height: 60
+  tracker-list: #tracker地址
+    - 49.233.133.231:22122
+
+#配置基础url和允许的图片类型
+ly:
+  upload:
+    baseUrl: http://49.233.133.231/
+    AllowTypes:
+      - image/jpeg
+      - image/jpg
+      - image/png
+      - image/bmp

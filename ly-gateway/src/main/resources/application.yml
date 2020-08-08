@@ -21,9 +21,13 @@ eureka:
 #    register-with-eureka: false
 zuul:
   prefix: /api #添加路由前缀
-  retryable: true
+#  retryable: true
   routes:
     item-service: /item/**
+    upload-service:
+      path: /upload/**
+      serviceId: upload-service
+      strip-prefix: false
 hystrix:
   command:
     default:

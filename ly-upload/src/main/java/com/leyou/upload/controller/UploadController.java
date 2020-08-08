@@ -19,6 +19,6 @@ public class UploadController {
     @PostMapping("image")
     public ResponseEntity<String> uploadImage(@RequestParam("file")MultipartFile file,@RequestParam(value = "name",required = false,defaultValue = "文件名") String name){
         String url = uploadService.saveImage(file,name);
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(url);
     }
 }
