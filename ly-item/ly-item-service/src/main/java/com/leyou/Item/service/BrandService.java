@@ -36,7 +36,7 @@ public class BrandService {
             String orderBy = sortBy + (desc ? " DESC" : " ASC");
             example.setOrderByClause(orderBy);
         }
-        List<Brand> brands = brandMapper.selectByExample(example);
+        List<Brand> brands = brandMapper.selectByExample(example);;
         PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
         List<Brand> list = brandPageInfo.getList();
         Long total = brandPageInfo.getTotal();
@@ -60,5 +60,13 @@ public class BrandService {
             }
         }
 
+    }
+
+    public Brand queryBrandById(Long id){
+        Brand brand = brandMapper.selectByPrimaryKey(id);
+        if(brand == null){
+            throw new LyException(ExceptionEnum.NOT_GOODS);
+        }
+        return brand;
     }
 }
