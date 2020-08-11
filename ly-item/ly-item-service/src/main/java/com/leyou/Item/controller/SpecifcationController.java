@@ -23,8 +23,11 @@ public class SpecifcationController {
     }
 
     @GetMapping("params")
-    public ResponseEntity<List<SpecParam>> getParamsByGig(@RequestParam("gid") Long gid){
-        return ResponseEntity.ok(specifcationService.getParamsByGid(gid));
+    public ResponseEntity<List<SpecParam>> getParamsByGigCid(@RequestParam(value = "gid",required = false) Long gid,
+                                                             @RequestParam(value = "cid",required = false) Long cid,
+                                                             @RequestParam(value = "searching",required = false) Boolean searching
+                                                             ){
+        return ResponseEntity.ok(specifcationService.getParamsList(gid,cid,searching));
     }
 
     @PostMapping("param")

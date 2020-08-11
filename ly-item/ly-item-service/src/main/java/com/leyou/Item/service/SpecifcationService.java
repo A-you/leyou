@@ -19,7 +19,6 @@ public class SpecifcationService {
     private SpecParamMapper specParamMapper;
 
     public List<SpecGroup> querSpecGroupByCid(Long cid) {
-        System.out.println("进来没");
         SpecGroup specGroup = new SpecGroup();
         specGroup.setCid(cid);
         List<SpecGroup> groups = specGroupMapper.select(specGroup);
@@ -31,9 +30,11 @@ public class SpecifcationService {
      * @param gid
      * @return
      */
-    public List<SpecParam> getParamsByGid(Long gid) {
+    public List<SpecParam> getParamsList(Long gid,Long cid,Boolean searching) {
         SpecParam specParam = new SpecParam();
         specParam.setGroupId(gid);
+        specParam.setCid(cid);
+        specParam.setSearching(searching);
         List<SpecParam> params = specParamMapper.select(specParam);
         return params;
     }

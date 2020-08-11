@@ -25,7 +25,6 @@ public class BrandService {
 
     public PageResult<Brand> getBrandByPageMethod(Integer page, Integer rows, String key, String sortBy, Boolean desc) {
         //开始分页
-        System.out.println("进服务"+rows+""+page);
         PageHelper.startPage(page,rows);
         Example example = new Example(Brand.class);
         if(StringUtils.isNotBlank(key)){
@@ -68,5 +67,11 @@ public class BrandService {
             throw new LyException(ExceptionEnum.NOT_GOODS);
         }
         return brand;
+    }
+
+    public List<Brand> queryBrandByCid(Long cid) {
+        Brand brand = new Brand();
+        List<Brand> brands = brandMapper.queryByCategoryId(cid);
+        return brands;
     }
 }
